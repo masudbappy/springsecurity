@@ -1,10 +1,10 @@
 spring:
   application:
     name: springsecurity
-  security:
-    user:
-      name: root
-      password: root
+#  security:
+#    user:
+#      name: root
+#      password: root
 server:
   port: 8081
 
