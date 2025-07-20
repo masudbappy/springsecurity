@@ -9,3 +9,15 @@ INSERT IGNORE INTO authorities VALUES ('user', 'read');
 
 INSERT IGNORE INTO users VALUES ('admin', '{bcrypt}$2a$12$sz2AwV5vgKXeaZs0T8iM..kcOoUNbEP4cJGEprQ2yA7n8Csrz17Si', '1');
 INSERT IGNORE INTO authorities VALUES ('admin', 'admin');
+
+INSERT INTO customer (email, pwd, role) VALUES ('happy@email.com', '{noop}H@ppy@12345', 'read');
+INSERT INTO customer (email, pwd, role) VALUES ('amin@email.com', '{bcrypt}$2a$12$sz2AwV5vgKXeaZs0T8iM..kcOoUNbEP4cJGEprQ2yA7n8Csrz17Si', 'read');
+
+CREATE TABLE customer (
+                          id int NOT null AUTO_INCREMENT,
+                          email varchar(45) NOT NULL,
+                          pwd varchar(200) NOT NULL,
+                          role varchar(45) NOT NULL,
+                          PRIMARY KEY (id)
+);
+
