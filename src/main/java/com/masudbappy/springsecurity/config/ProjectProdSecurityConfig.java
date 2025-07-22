@@ -12,8 +12,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
 
 @Configuration
-@Profile("!prod") // This configuration will be active when the 'prod' profile is not active
-public class ProjectSecurityConfig {
+@Profile("prod") // This configuration will only be active when the 'prod' profile is active
+public class ProjectProdSecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
