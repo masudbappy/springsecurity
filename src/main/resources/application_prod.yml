@@ -1,4 +1,7 @@
 spring:
+  config:
+    activate:
+      on-profile: prod
   application:
     name: springsecurity
 #  security:
@@ -16,15 +19,11 @@ Spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
-  config:
-    import: application_prod.yml
-    profiles:
-      active: prod
+        format_sql: false
 
 logging:
   level:
-    org.springframework.security: TRACE
+    org.springframework.security: ERROR
