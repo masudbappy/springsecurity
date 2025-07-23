@@ -17,7 +17,8 @@ public class ProjectProdSecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((requests) -> {
+        http.requiresChannel(rcc -> rcc.anyRequest().requiresSecure()) // Only HTTPS requests
+                .authorizeHttpRequests((requests) -> {
                     requests.requestMatchers("/myAccount", "/myBalance",
                             "/myLoans", "/myCards").authenticated()
                             .requestMatchers("/notice", "/contact", "/error", "/register").permitAll();
