@@ -43,6 +43,7 @@ public class ProjectSecurityConfig {
                 });
         http.formLogin(Customizer.withDefaults());
         http.httpBasic(hbc->hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
+//        http.exceptionHandling(hbc->hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint())); // this is global config
         http.csrf(csrf -> csrf.disable());
         return http.build();
     }
