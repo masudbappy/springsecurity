@@ -1,5 +1,6 @@
 package com.masudbappy.springsecurity.config;
 
+import com.masudbappy.springsecurity.exceptions.CustomAccessDeniedHandler;
 import com.masudbappy.springsecurity.exceptions.CustomBasicAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,6 +41,7 @@ public class ProjectProdSecurityConfig {
                 });
         http.formLogin(Customizer.withDefaults());
         http.httpBasic(hsb -> hsb.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
+        http.exceptionHandling(ehc -> ehc.accessDeniedHandler(new CustomAccessDeniedHandler()));
         http.csrf(csrf -> csrf.disable());
         return http.build();
     }
