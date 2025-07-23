@@ -1,5 +1,6 @@
 package com.masudbappy.springsecurity.config;
 
+import com.masudbappy.springsecurity.exceptions.CustomBasicAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -15,7 +16,7 @@ import org.springframework.security.web.authentication.password.HaveIBeenPwnedRe
 @Profile("prod") // This configuration will only be active when the 'prod' profile is active
 public class ProjectProdSecurityConfig {
 
-    @Bean
+   /* @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.requiresChannel(rcc -> rcc.anyRequest().requiresSecure()) // Only HTTPS requests
                 .authorizeHttpRequests((requests) -> {
@@ -25,6 +26,20 @@ public class ProjectProdSecurityConfig {
         });
         http.formLogin(Customizer.withDefaults());
         http.httpBasic(Customizer.withDefaults());
+        http.csrf(csrf -> csrf.disable());
+        return http.build();
+    }*/
+
+    @Bean
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.requiresChannel(rcc -> rcc.anyRequest().requiresSecure()) // Only HTTPS requests
+                .authorizeHttpRequests((requests) -> {
+                    requests.requestMatchers("/myAccount", "/myBalance",
+                                    "/myLoans", "/myCards").authenticated()
+                            .requestMatchers("/notice", "/contact", "/error", "/register").permitAll();
+                });
+        http.formLogin(Customizer.withDefaults());
+        http.httpBasic(hsb -> hsb.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
         http.csrf(csrf -> csrf.disable());
         return http.build();
     }
