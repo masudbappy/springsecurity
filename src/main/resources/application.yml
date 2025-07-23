@@ -13,7 +13,14 @@ Spring:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 1000
+      maximum-pool-size: 10
+      minimum-idle: 8
+      idle-timeout: 600000
+      pool-name: HikariPool-springsecurity
   jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update
     show-sql: true
@@ -21,7 +28,7 @@ Spring:
       hibernate:
         format_sql: true
   config:
-    import: application_prod.yml
+    import: application-prod.yml
     profiles:
       active: prod
 
