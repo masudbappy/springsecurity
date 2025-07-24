@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -36,18 +37,20 @@ public class ProjectSecurityConfig {
      */
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.sessionManagement(smc->smc.invalidSessionUrl("/invalidSession"))
+        http.sessionManagement(smc->smc.invalidSessionUrl("/invalidSession")
+                        .maximumSessions(3).maxSessionsPreventsLogin(true).expiredUrl("/expiredSession"))
         .requiresChannel(rcc -> rcc.anyRequest().requiresInsecure()) // Only HTTP requests
                 .authorizeHttpRequests((requests) -> {
                     requests.requestMatchers("/myAccount", "/myBalance",
                                     "/myLoans", "/myCards").authenticated()
-                            .requestMatchers("/notice", "/contact", "/error", "/register", "invalidSession").permitAll();
+                            .requestMatchers("/notice", "/contact", "/error",
+                                    "/register", "/invalidSession", "/expiredSession").permitAll();
                 });
         http.formLogin(Customizer.withDefaults());
         http.httpBasic(hbc->hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
 //        http.exceptionHandling(hbc->hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint())); // this is global config
         http.exceptionHandling(ehc -> ehc.accessDeniedHandler(new CustomAccessDeniedHandler()));
-        http.csrf(csrf -> csrf.disable());
+        http.csrf(AbstractHttpConfigurer::disable);
         return http.build();
     }
     /*
