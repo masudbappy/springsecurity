@@ -36,11 +36,12 @@ public class ProjectSecurityConfig {
      */
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.requiresChannel(rcc -> rcc.anyRequest().requiresInsecure()) // Only HTTP requests
+        http.sessionManagement(smc->smc.invalidSessionUrl("/invalidSession"))
+        .requiresChannel(rcc -> rcc.anyRequest().requiresInsecure()) // Only HTTP requests
                 .authorizeHttpRequests((requests) -> {
                     requests.requestMatchers("/myAccount", "/myBalance",
                                     "/myLoans", "/myCards").authenticated()
-                            .requestMatchers("/notice", "/contact", "/error", "/register").permitAll();
+                            .requestMatchers("/notice", "/contact", "/error", "/register", "invalidSession").permitAll();
                 });
         http.formLogin(Customizer.withDefaults());
         http.httpBasic(hbc->hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));

@@ -10,6 +10,9 @@ spring:
 #      password: root
 server:
   port: 8081
+  servlet:
+    session:
+      timeout: 5m
 Spring:
   datasource:
     url: jdbc:mysql://localhost:3306/springsecurity

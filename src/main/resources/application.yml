@@ -1,6 +1,8 @@
 spring:
   application:
     name: springsecurity
+  session:
+    timeout: 60
 #  security:
 #    user:
 #      name: root
